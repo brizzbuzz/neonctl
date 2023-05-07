@@ -1,7 +1,6 @@
 import co.touchlab.kermit.Logger as KermitLogger
-import io.github.unredundant.neonctl.requests.listProjects
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.curl.Curl
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
@@ -9,6 +8,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.get
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.runBlocking
@@ -16,7 +16,7 @@ import kotlinx.coroutines.runBlocking
 private const val TOKEN = "OMITTED"
 
 fun main() = runBlocking {
-    val client = HttpClient(CIO) {
+    val client = HttpClient(Curl) {
         install(ContentNegotiation) {
             json()
         }
@@ -36,12 +36,10 @@ fun main() = runBlocking {
         }
         defaultRequest {
             url {
-                protocol = URLProtocol.HTTPS
-                host = "console.neon.tech/api/v2"
+                protocol = URLProtocol.HTTP
+                host = "console.neon.tech"
             }
         }
     }
-    val result = client.listProjects("0", "10")
-    print(result.status)
-//    val projects: ProjectsResponse = result.body()
+    val result = client.get("api/v2/api_keys")
 }

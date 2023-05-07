@@ -48,7 +48,6 @@ kotlin {
             }
             dependencies {
                 implementation("io.ktor:ktor-client-core:${VERSIONS.KTOR}")
-                implementation("io.ktor:ktor-client-cio:${VERSIONS.KTOR}")
                 implementation("io.ktor:ktor-client-auth:${VERSIONS.KTOR}")
                 implementation("io.ktor:ktor-client-logging:${VERSIONS.KTOR}")
                 implementation("io.ktor:ktor-client-content-negotiation:${VERSIONS.KTOR}")
@@ -57,7 +56,11 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${VERSIONS.KTX_SERIALIZATION}")
             }
         }
-        val nativeMain by getting
+        val nativeMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-curl:${VERSIONS.KTOR}")
+            }
+        }
         val nativeTest by getting
     }
 }
