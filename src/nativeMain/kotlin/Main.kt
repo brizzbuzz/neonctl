@@ -42,4 +42,5 @@ fun main() = runBlocking {
         }
     }
     val result = client.get("api/v2/api_keys")
+    println(result.status)
 }
