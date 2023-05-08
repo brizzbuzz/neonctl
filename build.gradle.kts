@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform") version "1.8.20"
     kotlin("plugin.serialization") version "1.8.20"
-    id("io.bkbn.skribe") version "0.1.1"
+    id("io.bkbn.skribe") version "0.1.13"
 }
 
 object VERSIONS {
@@ -11,7 +11,14 @@ object VERSIONS {
 }
 
 group = "io.github.unredundant"
-version = "0.1.0-SNAPSHOT"
+version = run {
+    val baseVersion =
+        project.findProperty("project.version") ?: error("project.version needs to be set in gradle.properties")
+    when ((project.findProperty("release") as? String)?.toBoolean()) {
+        true -> baseVersion
+        else -> "$baseVersion-SNAPSHOT"
+    }
+}
 
 repositories {
     mavenCentral()
@@ -21,6 +28,7 @@ skribe {
     specUrl.set("https://dfv3qgd2ykmrx.cloudfront.net/api_spec/release/v2.json")
     outputDir.set("$projectDir/src/commonMain/gen")
     basePackage.set("io.github.unredundant.neonctl")
+    shouldCleanDir.set(true)
 }
 
 kotlin {

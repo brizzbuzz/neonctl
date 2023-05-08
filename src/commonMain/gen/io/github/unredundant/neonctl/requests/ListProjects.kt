@@ -10,4 +10,10 @@ import kotlin.String
  * A project is the top-level object in the Neon object hierarchy.
  * For more information, see [Manage projects](https://neon.tech/docs/manage/projects/).
  */
-public suspend fun HttpClient.listProjects(cursor: String, limit: String): HttpResponse = `get`("""/projects""")
+public suspend fun HttpClient.listProjects(cursor: String, limit: String): HttpResponse =
+    `get`("""/projects""") {
+  url {
+    parameters.append("cursor", cursor)
+    parameters.append("limit", limit)
+  }
+}
