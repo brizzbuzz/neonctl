@@ -21,7 +21,10 @@ actual interface ConfigLoader {
         }
 
         override fun saveConfig(config: Config) {
-            TODO()
+            val path = configPath()
+            FileSystem.SYSTEM.write(path) {
+                writeUtf8(Yaml.Default.encodeToString(Config.serializer(), config))
+            }
         }
 
         private fun fileExists(): Boolean {
