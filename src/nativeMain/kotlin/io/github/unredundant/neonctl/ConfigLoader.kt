@@ -3,6 +3,7 @@ package io.github.unredundant.neonctl
 import kotlinx.cinterop.toKStringFromUtf8
 import net.mamoe.yamlkt.Yaml
 import okio.FileSystem
+import okio.Path
 import okio.Path.Companion.toPath
 import okio.buffer
 import okio.use
@@ -24,21 +25,25 @@ actual interface ConfigLoader {
         }
 
         private fun fileExists(): Boolean {
-            val home = getenv("HOME")?.toKStringFromUtf8() ?: error("No home directory found")
-            val path = "$home.config/neonctl/config.yml".toPath(normalize = true)
+            val path = configPath()
             return FileSystem.SYSTEM.exists(path)
         }
 
         private fun readFileAsText(): String {
             val sb = StringBuilder()
-            val home = getenv("HOME")?.toKStringFromUtf8() ?: error("No home directory found")
-            val path = "$home.config/neonctl/config.yml".toPath(normalize = true)
+            val path = configPath()
             FileSystem.SYSTEM.source(path).use { fileSource ->
                 fileSource.buffer().use { bufferedFileSource ->
                     sb.appendLine(bufferedFileSource.readUtf8Line())
                 }
             }
             return sb.toString()
+        }
+
+        private fun configPath(): Path {
+            val home = getenv("HOME")?.toKStringFromUtf8() ?: error("No home directory found")
+            val path = "$home/.config/neonctl/config.yml"
+            return path.toPath(normalize = true)
         }
     }
 }
