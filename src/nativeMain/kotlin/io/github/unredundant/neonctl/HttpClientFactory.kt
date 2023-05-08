@@ -1,3 +1,5 @@
+package io.github.unredundant.neonctl
+
 import io.github.unredundant.neonctl.ConfigLoader
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.curl.Curl
