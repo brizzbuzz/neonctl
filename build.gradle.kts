@@ -7,7 +7,7 @@ plugins {
 object VERSIONS {
     const val KTOR = "2.3.0"
     const val KTX_SERIALIZATION = "1.5.0"
-    const val KTX_CLI = "0.3.5"
+    const val CLIKT = "3.5.2"
     const val KERMIT = "2.0.0-RC4"
     const val YAML_KT = "0.13.0"
     const val OKIO = "3.3.0"
@@ -73,7 +73,7 @@ kotlin {
                 implementation("net.mamoe.yamlkt:yamlkt:${VERSIONS.YAML_KT}")
 
                 // CLI
-                implementation("org.jetbrains.kotlinx:kotlinx-cli:${VERSIONS.KTX_CLI}")
+                implementation("com.github.ajalt.clikt:clikt:${VERSIONS.CLIKT}")
 
                 // IO
                 implementation("com.squareup.okio:okio:${VERSIONS.OKIO}")

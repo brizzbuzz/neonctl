@@ -1,4 +1,4 @@
-package io.github.unredundant.neonctl
+package io.github.unredundant.neonctl.config
 
 import kotlinx.cinterop.toKStringFromUtf8
 import net.mamoe.yamlkt.Yaml
@@ -10,20 +10,20 @@ import okio.use
 import platform.posix.getenv
 
 actual interface ConfigLoader {
-    actual fun getConfig(): Config?
-    actual fun saveConfig(config: Config)
+    actual fun getConfig(): NeonCtlConfig?
+    actual fun saveConfig(neonCtlConfig: NeonCtlConfig)
 
     object Impl : ConfigLoader {
-        override fun getConfig(): Config? {
+        override fun getConfig(): NeonCtlConfig? {
             if (!fileExists()) return null
             val text = readFileAsText()
-            return Yaml.Default.decodeFromString(Config.serializer(), text)
+            return Yaml.decodeFromString(NeonCtlConfig.serializer(), text)
         }
 
-        override fun saveConfig(config: Config) {
+        override fun saveConfig(neonCtlConfig: NeonCtlConfig) {
             val path = configPath()
             FileSystem.SYSTEM.write(path) {
-                writeUtf8(Yaml.Default.encodeToString(Config.serializer(), config))
+                writeUtf8(Yaml.encodeToString(NeonCtlConfig.serializer(), neonCtlConfig))
             }
         }
 

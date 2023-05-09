@@ -1,8 +1,8 @@
-package io.github.unredundant.neonctl
+package io.github.unredundant.neonctl.config
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Config(
+data class NeonCtlConfig(
     val token: String,
 )
