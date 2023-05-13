@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform") version "1.8.20"
     kotlin("plugin.serialization") version "1.8.20"
-    id("io.bkbn.skribe") version "0.1.13"
+    id("io.bkbn.skribe") version "0.2.3"
 }
 
 object VERSIONS {

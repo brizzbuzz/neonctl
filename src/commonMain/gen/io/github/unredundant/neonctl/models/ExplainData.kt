@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class ExplainData(
   @SerialName("QUERY PLAN")
-  public val QUERY_PLAN: String,
+  public val query_plan: String,
 )

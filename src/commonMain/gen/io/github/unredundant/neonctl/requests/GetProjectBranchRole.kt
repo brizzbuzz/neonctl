@@ -2,7 +2,6 @@ package io.github.unredundant.neonctl.requests
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.`get`
-import io.ktor.client.statement.HttpResponse
 import kotlin.String
 
 /**
@@ -12,12 +11,13 @@ import kotlin.String
  * You can obtain the `role_name` by listing the roles for a branch.
  * In Neon, the terms "role" and "user" are synonymous.
  * For related information, see [Managing users](https://neon.tech/docs/manage/users/).
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.RoleResponse]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
 public suspend fun HttpClient.getProjectBranchRole(
   projectId: String,
   branchId: String,
   roleName: String,
-): HttpResponse = `get`("""/projects/$projectId/branches/$branchId/roles/$roleName""") {
-  url {
-  }
+) = `get`("""/projects/$projectId/branches/$branchId/roles/$roleName""") {
 }

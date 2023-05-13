@@ -26,6 +26,6 @@ public data class CurrentUserInfoResponse(
   @SerialName("max_autoscaling_limit")
   public val maxAutoscalingLimit: ComputeUnit,
   @SerialName("compute_seconds_limit")
-  public val computeSecondsLimit: Int,
+  public val computeSecondsLimit: Int?,
   public val plan: String,
 )

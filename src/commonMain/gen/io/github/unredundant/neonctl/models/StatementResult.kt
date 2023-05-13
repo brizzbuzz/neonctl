@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class StatementResult(
-  public val `data`: StatementData,
-  public val error: String,
+  public val `data`: StatementData?,
+  public val error: String?,
   @SerialName("explain_data")
-  public val explainData: List<ExplainData>,
+  public val explainData: List<ExplainData>?,
   public val query: String,
 )

@@ -5,7 +5,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class ConnectionURIsOptionalResponse(
+public data class CreatedBranch(
+  public val branch: Branch,
+  public val endpoints: List<Endpoint>,
+  public val operations: List<Operation>,
   @SerialName("connection_uris")
   public val connectionUris: List<ConnectionDetails>?,
 )

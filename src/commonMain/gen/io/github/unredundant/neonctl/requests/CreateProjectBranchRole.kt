@@ -3,7 +3,7 @@ package io.github.unredundant.neonctl.requests
 import io.github.unredundant.neonctl.models.RoleCreateRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.request.setBody
 import kotlin.String
 
 /**
@@ -16,12 +16,14 @@ import kotlin.String
  * Connections established to the active read-write endpoint will be dropped.
  * If the read-write endpoint is idle, the endpoint becomes active for a short period of time and is
  * suspended afterward.
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.RoleOperations]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
 public suspend fun HttpClient.createProjectBranchRole(
-  requestBody: RoleCreateRequest,
+  body: RoleCreateRequest,
   projectId: String,
   branchId: String,
-): HttpResponse = post("""/projects/$projectId/branches/$branchId/roles""") {
-  url {
-  }
+) = post("""/projects/$projectId/branches/$branchId/roles""") {
+  setBody(body)
 }

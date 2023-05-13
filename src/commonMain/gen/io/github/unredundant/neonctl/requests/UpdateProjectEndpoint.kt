@@ -3,7 +3,7 @@ package io.github.unredundant.neonctl.requests
 import io.github.unredundant.neonctl.models.EndpointUpdateRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.patch
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.request.setBody
 import kotlin.String
 
 /**
@@ -21,12 +21,14 @@ import kotlin.String
  * If the endpoint was idle before the update, the endpoint becomes active for a short period of
  * time,
  * and the control plane suspends it again after the update.
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.EndpointOperations]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
 public suspend fun HttpClient.updateProjectEndpoint(
-  requestBody: EndpointUpdateRequest,
+  body: EndpointUpdateRequest,
   projectId: String,
   endpointId: String,
-): HttpResponse = patch("""/projects/$projectId/endpoints/$endpointId""") {
-  url {
-  }
+) = patch("""/projects/$projectId/endpoints/$endpointId""") {
+  setBody(body)
 }

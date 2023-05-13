@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class ProjectSettingsData(
-  public val quota: ProjectQuota,
+  public val quota: ProjectQuota?,
 )

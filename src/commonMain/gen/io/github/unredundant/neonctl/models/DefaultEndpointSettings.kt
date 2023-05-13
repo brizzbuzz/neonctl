@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class DefaultEndpointSettings(
   @SerialName("pg_settings")
-  public val pgSettings: PgSettingsData,
+  public val pgSettings: PgSettingsData?,
 )

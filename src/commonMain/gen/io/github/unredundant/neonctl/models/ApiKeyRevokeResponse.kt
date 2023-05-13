@@ -12,7 +12,7 @@ public data class ApiKeyRevokeResponse(
   public val name: String,
   public val revoked: Boolean,
   @SerialName("last_used_at")
-  public val lastUsedAt: String,
+  public val lastUsedAt: String?,
   @SerialName("last_used_from_addr")
   public val lastUsedFromAddr: String,
 )

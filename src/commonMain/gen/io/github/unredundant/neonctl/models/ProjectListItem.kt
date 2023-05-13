@@ -16,8 +16,8 @@ public data class ProjectListItem(
   public val name: String,
   public val provisioner: Provisioner,
   @SerialName("default_endpoint_settings")
-  public val defaultEndpointSettings: DefaultEndpointSettings,
-  public val settings: ProjectSettingsData,
+  public val defaultEndpointSettings: DefaultEndpointSettings?,
+  public val settings: ProjectSettingsData?,
   @SerialName("pg_version")
   public val pgVersion: PgVersion,
   @SerialName("proxy_host")
@@ -33,7 +33,7 @@ public data class ProjectListItem(
   @SerialName("cpu_used_sec")
   public val cpuUsedSec: Int,
   @SerialName("maintenance_starts_at")
-  public val maintenanceStartsAt: String,
+  public val maintenanceStartsAt: String?,
   @SerialName("creation_source")
   public val creationSource: String,
   @SerialName("created_at")
@@ -41,10 +41,10 @@ public data class ProjectListItem(
   @SerialName("updated_at")
   public val updatedAt: String,
   @SerialName("synthetic_storage_size")
-  public val syntheticStorageSize: Int,
+  public val syntheticStorageSize: Int?,
   @SerialName("quota_reset_at")
-  public val quotaResetAt: String,
+  public val quotaResetAt: String?,
   @SerialName("owner_id")
   public val ownerId: String,
-  public val owner: ProjectOwnerData,
+  public val owner: ProjectOwnerData?,
 )

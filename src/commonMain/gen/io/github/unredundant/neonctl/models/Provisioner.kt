@@ -1,10 +1,10 @@
 package io.github.unredundant.neonctl.models
 
-import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 public enum class Provisioner {
-  `k8s-pod`,
-  `k8s-neonvm`,
-  @SerialName("docker")
+  K8S_POD,
+  K8S_NEONVM,
   DOCKER,
 }

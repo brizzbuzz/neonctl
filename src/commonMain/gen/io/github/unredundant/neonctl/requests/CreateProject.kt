@@ -3,7 +3,7 @@ package io.github.unredundant.neonctl.requests
 import io.github.unredundant.neonctl.models.ProjectCreateRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.request.setBody
 
 /**
  * Creates a Neon project.
@@ -16,9 +16,10 @@ import io.ktor.client.statement.HttpResponse
  * Neon currently supports PostgreSQL 14 and 15.
  * For supported regions and `region_id` values, see
  * [Regions](https://neon.tech/docs/introduction/regions/).
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.CreatedProject]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
-public suspend fun HttpClient.createProject(requestBody: ProjectCreateRequest): HttpResponse =
-    post("""/projects""") {
-  url {
-  }
+public suspend fun HttpClient.createProject(body: ProjectCreateRequest) = post("""/projects""") {
+  setBody(body)
 }

@@ -4,11 +4,11 @@ import kotlin.String
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class RoleCreateRequestRole(
-  public val name: String,
-)
-
-@Serializable
 public data class RoleCreateRequest(
-  public val role: RoleCreateRequestRole,
-)
+  public val role: Role,
+) {
+  @Serializable
+  public data class Role(
+    public val name: String,
+  )
+}
