@@ -9,6 +9,8 @@ import io.github.unredundant.neonctl.models.BranchCreateRequestEndpointOptions
 import io.github.unredundant.neonctl.models.CreatedBranch
 import io.github.unredundant.neonctl.models.EndpointType
 import io.github.unredundant.neonctl.requests.createProjectBranch
+import io.github.unredundant.neonctl.util.ErrorMessage
+import io.github.unredundant.neonctl.util.NeonCtlUtils
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import kotlinx.coroutines.runBlocking
@@ -55,20 +57,35 @@ class BranchCommands(private val client: () -> HttpClient) : CliktCommand(
               suspendTimeoutSeconds = null
             )
           ),
-          branch = null
+          branch = BranchCreateRequest.Branch(
+            parentId = null,
+            name = null,
+            parentLsn = null,
+            parentTimestamp = null
+          )
         ),
         projectId = projectId,
       )
 
       when (result.status.value) {
         in 200..299 -> {
-          val strBody: String = result.body()
-          println(strBody)
           val body: CreatedBranch = result.body()
-          println(body)
+          echo(NeonCtlUtils.json.encodeToString(CreatedBranch.serializer(), body))
         }
 
-        else -> error("Unexpected error creating branch")
+        else -> {
+          val body: String = result.body()
+          echo(
+            NeonCtlUtils.json.encodeToString(
+              ErrorMessage.serializer(),
+              ErrorMessage(
+                message = "Create branch failed",
+                code = result.status.value,
+                details = body
+              )
+            )
+          )
+        }
       }
     }
   }
