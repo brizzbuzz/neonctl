@@ -1,5 +1,5 @@
 package io.github.unredundant.neonctl.models
 
-import kotlin.Int
+import kotlin.Number
 
-public typealias ComputeUnit = Int
+public typealias ComputeUnit = Number

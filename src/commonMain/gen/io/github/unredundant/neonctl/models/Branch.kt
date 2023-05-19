@@ -12,18 +12,18 @@ public data class Branch(
   @SerialName("project_id")
   public val projectId: String,
   @SerialName("parent_id")
-  public val parentId: String,
+  public val parentId: String?,
   @SerialName("parent_lsn")
-  public val parentLsn: String,
+  public val parentLsn: String?,
   @SerialName("parent_timestamp")
-  public val parentTimestamp: String,
+  public val parentTimestamp: String?,
   public val name: String,
   @SerialName("current_state")
   public val currentState: BranchState,
   @SerialName("pending_state")
-  public val pendingState: BranchState,
+  public val pendingState: BranchState?,
   @SerialName("logical_size")
-  public val logicalSize: Int,
+  public val logicalSize: Int?,
   @SerialName("creation_source")
   public val creationSource: String,
   public val primary: Boolean,

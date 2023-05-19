@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 public data class PaginationResponse(
-  public val pagination: Pagination,
+  public val pagination: Pagination?,
 )

@@ -12,7 +12,7 @@ public data class ApiKeysListResponseItem(
   @SerialName("created_at")
   public val createdAt: String,
   @SerialName("last_used_at")
-  public val lastUsedAt: String,
+  public val lastUsedAt: String?,
   @SerialName("last_used_from_addr")
   public val lastUsedFromAddr: String,
 )

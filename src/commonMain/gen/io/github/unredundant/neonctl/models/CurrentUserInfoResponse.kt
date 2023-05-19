@@ -1,5 +1,6 @@
 package io.github.unredundant.neonctl.models
 
+import io.github.unredundant.neonctl.util.NumberSerializer
 import kotlin.Int
 import kotlin.String
 import kotlin.collections.List
@@ -24,8 +25,9 @@ public data class CurrentUserInfoResponse(
   @SerialName("branches_limit")
   public val branchesLimit: Int,
   @SerialName("max_autoscaling_limit")
+  @Serializable(with = NumberSerializer::class)
   public val maxAutoscalingLimit: ComputeUnit,
   @SerialName("compute_seconds_limit")
-  public val computeSecondsLimit: Int,
+  public val computeSecondsLimit: Int?,
   public val plan: String,
 )

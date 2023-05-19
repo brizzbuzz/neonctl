@@ -2,7 +2,6 @@ package io.github.unredundant.neonctl.requests
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
-import io.ktor.client.statement.HttpResponse
 import kotlin.String
 
 /**
@@ -17,9 +16,10 @@ import kotlin.String
  * The deletion occurs after all operations finish.
  * You cannot delete a branch if it is the only remaining branch in the project.
  * A project must have at least one branch.
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.BranchOperations]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
-public suspend fun HttpClient.deleteProjectBranch(projectId: String, branchId: String): HttpResponse
-    = delete("""/projects/$projectId/branches/$branchId""") {
-  url {
-  }
+public suspend fun HttpClient.deleteProjectBranch(projectId: String, branchId: String) =
+    delete("""/projects/$projectId/branches/$branchId""") {
 }

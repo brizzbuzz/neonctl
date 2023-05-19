@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class ConsoleSettingsRaw(
   @SerialName("project_creation_forbidden")
-  public val projectCreationForbidden: Boolean,
+  public val projectCreationForbidden: Boolean?,
   @SerialName("proxy_host")
-  public val proxyHost: String,
+  public val proxyHost: String?,
 )

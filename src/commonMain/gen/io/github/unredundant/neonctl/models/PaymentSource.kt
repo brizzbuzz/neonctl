@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class PaymentSource(
   public val type: String,
-  public val card: PaymentSourceBankCard,
+  public val card: PaymentSourceBankCard?,
 )

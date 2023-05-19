@@ -3,7 +3,7 @@ package io.github.unredundant.neonctl.requests
 import io.github.unredundant.neonctl.models.EndpointCreateRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
-import io.ktor.client.statement.HttpResponse
+import io.ktor.client.request.setBody
 import kotlin.String
 
 /**
@@ -20,9 +20,11 @@ import kotlin.String
  * [Regions](https://neon.tech/docs/introduction/regions/).
  * For more information about endpoints, see [Manage
  * endpoints](https://neon.tech/docs/manage/endpoints/).
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.EndpointOperations]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
-public suspend fun HttpClient.createProjectEndpoint(requestBody: EndpointCreateRequest,
-    projectId: String): HttpResponse = post("""/projects/$projectId/endpoints""") {
-  url {
-  }
+public suspend fun HttpClient.createProjectEndpoint(body: EndpointCreateRequest, projectId: String)
+    = post("""/projects/$projectId/endpoints""") {
+  setBody(body)
 }

@@ -5,13 +5,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-public data class DatabaseCreateRequestDatabase(
-  public val name: String,
-  @SerialName("owner_name")
-  public val ownerName: String,
-)
-
-@Serializable
 public data class DatabaseCreateRequest(
-  public val database: DatabaseCreateRequestDatabase,
-)
+  public val database: Database,
+) {
+  @Serializable
+  public data class Database(
+    public val name: String,
+    @SerialName("owner_name")
+    public val ownerName: String,
+  )
+}

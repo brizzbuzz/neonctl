@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class ConnectionURIsOptionalResponse(
   @SerialName("connection_uris")
-  public val connectionUris: List<ConnectionDetails>,
+  public val connectionUris: List<ConnectionDetails>?,
 )

@@ -2,7 +2,6 @@ package io.github.unredundant.neonctl.requests
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.`get`
-import io.ktor.client.statement.HttpResponse
 import kotlin.String
 
 /**
@@ -15,9 +14,10 @@ import kotlin.String
  * A project may contain child branches that were branched from `main` or from another branch.
  * A parent branch is identified by a `parent_id` value, which is the `id` of the parent branch.
  * For related information, see [Manage branches](https://neon.tech/docs/manage/branches/).
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.BranchResponse]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
-public suspend fun HttpClient.getProjectBranch(projectId: String, branchId: String): HttpResponse =
+public suspend fun HttpClient.getProjectBranch(projectId: String, branchId: String) =
     `get`("""/projects/$projectId/branches/$branchId""") {
-  url {
-  }
 }

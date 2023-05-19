@@ -2,7 +2,6 @@ package io.github.unredundant.neonctl.requests
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
-import io.ktor.client.statement.HttpResponse
 import kotlin.String
 
 /**
@@ -16,9 +15,10 @@ import kotlin.String
  * An `endpoint_id` has an `ep-` prefix.
  * For more information about endpoints, see [Manage
  * endpoints](https://neon.tech/docs/manage/endpoints/).
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.EndpointOperations]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
-public suspend fun HttpClient.deleteProjectEndpoint(projectId: String, endpointId: String):
-    HttpResponse = delete("""/projects/$projectId/endpoints/$endpointId""") {
-  url {
-  }
+public suspend fun HttpClient.deleteProjectEndpoint(projectId: String, endpointId: String) =
+    delete("""/projects/$projectId/endpoints/$endpointId""") {
 }

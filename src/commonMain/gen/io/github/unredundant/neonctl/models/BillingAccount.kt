@@ -17,8 +17,10 @@ public data class BillingAccount(
   public val addressCity: String,
   @SerialName("address_country")
   public val addressCountry: String,
-  public val address_line1: String,
-  public val address_line2: String,
+  @SerialName("address_line1")
+  public val addressLine1: String,
+  @SerialName("address_line2")
+  public val addressLine2: String,
   @SerialName("address_postal_code")
   public val addressPostalCode: String,
   @SerialName("address_state")

@@ -2,7 +2,7 @@ package io.github.unredundant.neonctl.requests
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.`get`
-import io.ktor.client.statement.HttpResponse
+import kotlin.Int
 import kotlin.String
 
 /**
@@ -11,14 +11,17 @@ import kotlin.String
  * The number of operations returned can be large.
  * To paginate the response, issue an initial request with a `limit` value.
  * Then, add the `cursor` value that was returned in the response to the next request.
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.ListOperations]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
 public suspend fun HttpClient.listProjectOperations(
-  cursor: String,
-  limit: String,
+  cursor: String?,
+  limit: Int?,
   projectId: String,
-): HttpResponse = `get`("""/projects/$projectId/operations""") {
+) = `get`("""/projects/$projectId/operations""") {
   url {
-    parameters.append("cursor", cursor)
-    parameters.append("limit", limit)
+    cursor?.let { parameters.append("cursor", it.toString()) }
+    limit?.let { parameters.append("limit", it.toString()) }
   }
 }

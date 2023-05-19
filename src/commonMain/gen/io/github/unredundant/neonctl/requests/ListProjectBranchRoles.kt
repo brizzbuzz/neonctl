@@ -2,7 +2,6 @@ package io.github.unredundant.neonctl.requests
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.`get`
-import io.ktor.client.statement.HttpResponse
 import kotlin.String
 
 /**
@@ -11,9 +10,10 @@ import kotlin.String
  * You can obtain the `branch_id` by listing the project's branches.
  * In Neon, the terms "role" and "user" are synonymous.
  * For related information, see [Manage users](https://neon.tech/docs/manage/users/).
+ * Body can be one of the following types:
+ * 	- [io.github.unredundant.neonctl.models.RolesResponse]
+ * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
-public suspend fun HttpClient.listProjectBranchRoles(projectId: String, branchId: String):
-    HttpResponse = `get`("""/projects/$projectId/branches/$branchId/roles""") {
-  url {
-  }
+public suspend fun HttpClient.listProjectBranchRoles(projectId: String, branchId: String) =
+    `get`("""/projects/$projectId/branches/$branchId/roles""") {
 }

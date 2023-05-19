@@ -1,46 +1,17 @@
-import co.touchlab.kermit.Logger as KermitLogger
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.curl.Curl
-import io.ktor.client.plugins.auth.Auth
-import io.ktor.client.plugins.auth.providers.BearerTokens
-import io.ktor.client.plugins.auth.providers.bearer
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.get
-import io.ktor.http.URLProtocol
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.coroutines.runBlocking
+import com.github.ajalt.clikt.core.subcommands
+import io.github.unredundant.neonctl.HttpClientFactory
+import io.github.unredundant.neonctl.commands.BranchCommands
+import io.github.unredundant.neonctl.commands.InitCommand
+import io.github.unredundant.neonctl.commands.NeonCtlCommand
+import io.github.unredundant.neonctl.config.ConfigLoader
 
-private const val TOKEN = "OMITTED"
-
-fun main() = runBlocking {
-    val client = HttpClient(Curl) {
-        install(ContentNegotiation) {
-            json()
-        }
-        install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    KermitLogger.v { message }
-                }
-            }
-        }
-        install(Auth) {
-            bearer {
-                loadTokens {
-                    BearerTokens(TOKEN, "")
-                }
-            }
-        }
-        defaultRequest {
-            url {
-                protocol = URLProtocol.HTTP
-                host = "console.neon.tech"
-            }
-        }
-    }
-    val result = client.get("api/v2/api_keys")
-    println(result.status)
-}
+fun main(args: Array<String>) = NeonCtlCommand
+    .subcommands(
+        InitCommand(ConfigLoader.Impl),
+        BranchCommands { HttpClientFactory() }
+            .subcommands(
+                BranchCommands.CreateBranchCommand,
+                BranchCommands.ListBranchesCommand
+            )
+    )
+    .main(args)
