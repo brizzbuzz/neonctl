@@ -1,7 +1,7 @@
 package io.github.unredundant.neonctl.models
 
+import com.benasher44.uuid.Uuid
 import io.github.unredundant.neonctl.util.UuidSerializer
-import java.util.UUID
 import kotlin.Int
 import kotlin.String
 import kotlinx.serialization.SerialName
@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 public data class Operation(
   @Serializable(UuidSerializer::class)
-  public val id: UUID,
+  public val id: Uuid,
   @SerialName("project_id")
   public val projectId: String,
   @SerialName("branch_id")

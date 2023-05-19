@@ -1,8 +1,8 @@
 package io.github.unredundant.neonctl.requests
 
+import com.benasher44.uuid.Uuid
 import io.ktor.client.HttpClient
 import io.ktor.client.request.`get`
-import java.util.UUID
 import kotlin.String
 
 /**
@@ -14,6 +14,6 @@ import kotlin.String
  * 	- [io.github.unredundant.neonctl.models.OperationResponse]
  * 	- [io.github.unredundant.neonctl.models.GeneralError]
  */
-public suspend fun HttpClient.getProjectOperation(projectId: String, operationId: UUID) =
+public suspend fun HttpClient.getProjectOperation(projectId: String, operationId: Uuid) =
     `get`("""/projects/$projectId/operations/$operationId""") {
 }

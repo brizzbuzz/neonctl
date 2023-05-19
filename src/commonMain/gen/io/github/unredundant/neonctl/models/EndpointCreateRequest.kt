@@ -1,5 +1,6 @@
 package io.github.unredundant.neonctl.models
 
+import io.github.unredundant.neonctl.util.NumberSerializer
 import kotlin.Boolean
 import kotlin.String
 import kotlinx.serialization.SerialName
@@ -18,8 +19,10 @@ public data class EndpointCreateRequest(
     public val type: EndpointType,
     public val settings: EndpointSettingsData?,
     @SerialName("autoscaling_limit_min_cu")
+    @Serializable(with = NumberSerializer::class)
     public val autoscalingLimitMinCu: ComputeUnit?,
     @SerialName("autoscaling_limit_max_cu")
+    @Serializable(with = NumberSerializer::class)
     public val autoscalingLimitMaxCu: ComputeUnit?,
     public val provisioner: Provisioner?,
     @SerialName("pooler_enabled")

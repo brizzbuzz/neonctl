@@ -10,6 +10,8 @@ public data class ProjectConsumption(
   public val id: String,
   @SerialName("data_storage_bytes_hour")
   public val dataStorageBytesHour: Int,
+  @SerialName("synthetic_storage_size")
+  public val syntheticStorageSize: Int,
   @SerialName("data_transfer_bytes")
   public val dataTransferBytes: Int,
   @SerialName("written_data_bytes")

@@ -1,5 +1,6 @@
 package io.github.unredundant.neonctl.models
 
+import io.github.unredundant.neonctl.util.NumberSerializer
 import kotlin.Boolean
 import kotlin.String
 import kotlinx.serialization.SerialName
@@ -14,8 +15,10 @@ public data class Endpoint(
   @SerialName("branch_id")
   public val branchId: String,
   @SerialName("autoscaling_limit_min_cu")
+  @Serializable(with = NumberSerializer::class)
   public val autoscalingLimitMinCu: ComputeUnit,
   @SerialName("autoscaling_limit_max_cu")
+  @Serializable(with = NumberSerializer::class)
   public val autoscalingLimitMaxCu: ComputeUnit,
   @SerialName("region_id")
   public val regionId: String,
