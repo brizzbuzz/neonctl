@@ -2,7 +2,6 @@ package io.github.unredundant.neonctl.util
 
 import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.uuidFrom
-import java.lang.NumberFormatException
 import kotlin.Number
 import kotlin.Unit
 import kotlinx.serialization.KSerializer
@@ -28,9 +27,9 @@ public object NumberSerializer : KSerializer<Number> {
       PrimitiveKind.DOUBLE)
 
   public override fun deserialize(decoder: Decoder): Number = try {
-    decoder.decodeDouble()
-  } catch (e: NumberFormatException) {
     decoder.decodeInt()
+  } catch (e: Exception) {
+    decoder.decodeDouble()
   }
 
   public override fun serialize(encoder: Encoder, `value`: Number): Unit {
