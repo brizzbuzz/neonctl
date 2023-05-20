@@ -21,6 +21,10 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+      - name: Install Ubuntu Deps
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt install -y libcurl4-openssl-dev
       - name: Build Native Binary
         uses: burrunan/gradle-cache-action@v1
         with:
