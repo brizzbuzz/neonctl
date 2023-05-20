@@ -34,6 +34,9 @@ jobs:
             org.gradle.vfs.verbose=false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: build/bin/native
       - uses: actions/upload-artifact@v3
         name: Upload Artifact
         with:
