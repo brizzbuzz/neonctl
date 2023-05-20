@@ -17,14 +17,6 @@ object VERSIONS {
 }
 
 group = "io.github.unredundant"
-version = run {
-  val baseVersion =
-    project.findProperty("project.version") ?: error("project.version needs to be set in gradle.properties")
-  when ((project.findProperty("release") as? String)?.toBoolean()) {
-    true -> baseVersion
-    else -> "$baseVersion-SNAPSHOT"
-  }
-}
 
 repositories {
   mavenCentral()
@@ -63,7 +55,6 @@ kotlin {
     }
   }
   sourceSets {
-    // val ktorVersion = "2.3.0"
     val commonMain by getting {
       kotlin {
         srcDir("src/commonMain/gen")
