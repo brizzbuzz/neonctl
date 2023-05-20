@@ -38,10 +38,17 @@ jobs:
         run: ls -R
         working-directory: build/bin/native
       - uses: actions/upload-artifact@v3
-        name: Upload Artifact
+        name: Upload Artifact (Unix)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
         with:
           name: neonctl-${{ matrix.os }}
           path: build/bin/native/releaseExecutable/neonctl.kexe
+      - uses: actions/upload-artifact@v3
+        name: Upload Artifact (Windows)
+        if: matrix.os == 'windows-latest'
+        with:
+          name: neonctl-${{ matrix.os }}
+          path: build/bin/native/releaseExecutable/neonctl.exe
   attach-artifacts-to-release:
     runs-on: ubuntu-latest
     needs: upload-binary-artifacts
