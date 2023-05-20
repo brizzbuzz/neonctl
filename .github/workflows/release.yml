@@ -1,0 +1,104 @@
+name: Publish to GitHub Packages
+env:
+  OWNER: unredundant
+  REPO: neonctl
+on:
+  release:
+    types:
+      - prereleased
+      - released
+jobs:
+  upload-binary-artifacts:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+      - name: Install Ubuntu Deps
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt install -y libcurl4-openssl-dev
+      - name: Build Native Binary
+        uses: burrunan/gradle-cache-action@v1
+        with:
+          gradle-version: wrapper
+          arguments: linkReleaseExecutableNative
+          properties: |
+            org.gradle.vfs.watch=false
+            org.gradle.vfs.verbose=false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v3
+        name: Upload Artifact (Unix)
+        if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
+        with:
+          name: neonctl-${{ matrix.os }}
+          path: build/bin/native/releaseExecutable/neonctl.kexe
+      - uses: actions/upload-artifact@v3
+        name: Upload Artifact (Windows)
+        if: matrix.os == 'windows-latest'
+        with:
+          name: neonctl-${{ matrix.os }}
+          path: build/bin/native/releaseExecutable/neonctl.exe
+  attach-artifacts-to-release:
+    runs-on: ubuntu-latest
+    needs: upload-binary-artifacts
+    steps:
+      - name: Get Release Metadata
+        run: |
+          curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/tags/${{ github.event.release.tag_name }} \
+            -o release.json
+      - name: Get Upload URL
+        uses: sergeysova/jq-action@v2
+        id: get_release_id
+        with:
+          cmd: jq .id release.json -r
+      - uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: artifacts
+      - name: Upload Ubuntu Asset to Release
+        working-directory: artifacts/neonctl-ubuntu-latest
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/octet-stream" \
+            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_release_id.outputs.value }}/assets?name=neonctl-linux.kexe \
+            --data-binary @neonctl.kexe
+      - name: Upload Macos Asset to Release
+        working-directory: artifacts/neonctl-macos-latest
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/octet-stream" \
+            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_release_id.outputs.value }}/assets?name=neonctl-mac.kexe \
+            --data-binary @neonctl.kexe
+      - name: Upload Windows Asset to Release
+        working-directory: artifacts/neonctl-windows-latest
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/octet-stream" \
+            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_release_id.outputs.value }}/assets?name=neonctl-windows.exe \
+            --data-binary @neonctl.exe
