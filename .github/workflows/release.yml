@@ -56,5 +56,5 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -H "Content-Type: application/octet-stream" \
-            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_upload_url.outputs.value }}/assets?name=neonctl.kexe \
+            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_release_id.outputs.value }}/assets?name=neonctl.kexe \
             --data-binary "build/bin/native/releaseExecutable/neonctl.kexe"
