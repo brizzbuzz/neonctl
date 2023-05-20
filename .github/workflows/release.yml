@@ -34,9 +34,6 @@ jobs:
             org.gradle.vfs.verbose=false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Display structure of downloaded files
-        run: ls -R
-        working-directory: build/bin/native
       - uses: actions/upload-artifact@v3
         name: Upload Artifact (Unix)
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
@@ -72,13 +69,36 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: artifacts
-#      - name: Upload Asset to Release
-#        run: |
-#          curl -L \
-#            -X POST \
-#            -H "Accept: application/vnd.github+json" \
-#            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
-#            -H "X-GitHub-Api-Version: 2022-11-28" \
-#            -H "Content-Type: application/octet-stream" \
-#            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_release_id.outputs.value }}/assets?name=neonctl.kexe \
-#            --data-binary "build/bin/native/releaseExecutable/neonctl.kexe"
+      - name: Upload Ubuntu Asset to Release
+        working-directory: artifacts
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/octet-stream" \
+            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_release_id.outputs.value }}/assets?name=neonctl-linux.kexe \
+            --data-binary "./neonctl-ubuntu-latest/neonctl.kexe"
+      - name: Upload Macos Asset to Release
+        working-directory: artifacts
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/octet-stream" \
+            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_release_id.outputs.value }}/assets?name=neonctl-mac.kexe \
+            --data-binary "./neonctl-macos-latest/neonctl.kexe"
+      - name: Upload Windows Asset to Release
+        working-directory: artifacts
+        run: |
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -H "Content-Type: application/octet-stream" \
+            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_release_id.outputs.value }}/assets?name=neonctl-windows.exe \
+            --data-binary "./neonctl-windows-latest/neonctl.exe"
