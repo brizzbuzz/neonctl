@@ -43,6 +43,7 @@ kotlin {
     withJava()
     testRuns["test"].executionTask.configure {
       useJUnitPlatform()
+    }
   }
 
   val hostOs = System.getProperty("os.name")
@@ -53,7 +54,7 @@ kotlin {
     isMingwX64 -> mingwX64("native")
     else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
   }
-  
+
   nativeTarget.apply {
     binaries {
       executable {
