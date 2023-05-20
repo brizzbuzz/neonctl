@@ -45,9 +45,9 @@ jobs:
             -o release.json
       - name: Get Upload URL
         uses: sergeysova/jq-action@v2
-        id: get_upload_url
+        id: get_release_id
         with:
-          cmd: jq .upload_url release.json -r
+          cmd: jq .id release.json -r
       - name: Upload Asset to Release
         run: |
           curl -L \
@@ -56,5 +56,5 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -H "Content-Type: application/octet-stream" \
-            ${{ steps.get_upload_url.outputs.value }}?name=neonctl.kexe \
+            https://uploads.github.com/repos/${{ env.OWNER }}/${{ env.REPO }}/releases/${{ steps.get_upload_url.outputs.value }}/assets?name=neonctl.kexe \
             --data-binary "build/bin/native/releaseExecutable/neonctl.kexe"
