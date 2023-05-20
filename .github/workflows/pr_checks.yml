@@ -10,6 +10,11 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+      - name: Install OS Deps
+        run: |
+          sudo apt update
+          sudo apt upgrade
+          sudo apt install -y libcurl4-openssl-dev
       - name: Unit Tests
         uses: burrunan/gradle-cache-action@v1
         with:
@@ -27,6 +32,11 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+      - name: Install OS Deps
+        run: |
+          sudo apt update
+          sudo apt upgrade
+          sudo apt install -y libcurl4-openssl-dev
       - name: Assemble
         uses: burrunan/gradle-cache-action@v1
         with:
