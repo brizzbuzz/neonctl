@@ -29,7 +29,7 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           gradle-version: wrapper
-          arguments: linkNative
+          arguments: linkReleaseExecutableNative
           properties: |
             org.gradle.vfs.watch=false
             org.gradle.vfs.verbose=false
