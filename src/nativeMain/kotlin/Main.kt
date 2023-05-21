@@ -6,12 +6,13 @@ import io.github.unredundant.neonctl.commands.NeonCtlCommand
 import io.github.unredundant.neonctl.config.ConfigLoader
 
 fun main(args: Array<String>) = NeonCtlCommand
-    .subcommands(
-        InitCommand(ConfigLoader.Impl),
-        BranchCommands { HttpClientFactory() }
-            .subcommands(
-                BranchCommands.CreateBranchCommand,
-                BranchCommands.ListBranchesCommand
-            )
-    )
-    .main(args)
+  .subcommands(
+    InitCommand(ConfigLoader.Impl),
+    BranchCommands { HttpClientFactory() }
+      .subcommands(
+        BranchCommands.CreateBranchCommand,
+        BranchCommands.ListBranchesCommand,
+        BranchCommands.GetPrimaryBranchEndpoint
+      )
+  )
+  .main(args)
