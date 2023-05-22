@@ -28,6 +28,7 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           gradle-version: wrapper
+          job-id: ${{ matrix.os }}
           arguments: linkReleaseExecutableNative
           properties: |
             org.gradle.vfs.watch=false
