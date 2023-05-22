@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+[0.3.0] - May 22rd, 2023
+
+### Added 
+
+- Project level commands
+
+### Changed
+
+- Primary connection info now under projects command, not branch
+
+[0.2.0] - May 22nd, 2023
+
 ### Added
 
 - List branches command
