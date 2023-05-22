@@ -8,12 +8,9 @@ import io.github.unredundant.neonctl.models.BranchCreateRequest
 import io.github.unredundant.neonctl.models.BranchCreateRequestEndpointOptions
 import io.github.unredundant.neonctl.models.BranchesResponse
 import io.github.unredundant.neonctl.models.CreatedBranch
-import io.github.unredundant.neonctl.models.Endpoint
 import io.github.unredundant.neonctl.models.EndpointType
-import io.github.unredundant.neonctl.models.EndpointsResponse
 import io.github.unredundant.neonctl.requests.createProjectBranch
 import io.github.unredundant.neonctl.requests.listProjectBranches
-import io.github.unredundant.neonctl.requests.listProjectEndpoints
 import io.github.unredundant.neonctl.util.ErrorMessage
 import io.github.unredundant.neonctl.util.NeonCtlUtils
 import io.ktor.client.HttpClient
@@ -26,7 +23,7 @@ class BranchCommands(private val client: () -> HttpClient) : CliktCommand(
 ) {
 
   private val projectId: String by option(
-    help = "The project ID to create the branch in",
+    help = "The project ID",
     names = arrayOf("--project-id", "-p")
   ).required()
 
@@ -124,22 +121,6 @@ class BranchCommands(private val client: () -> HttpClient) : CliktCommand(
           )
         }
       }
-    }
-  }
-
-  object GetPrimaryBranchEndpoint : CliktCommand(
-    help = "Returns the endpoint for the primary branch",
-    name = "primary_endpoint"
-  ) {
-    private val config by findObject<BranchCommandConfig>()
-    override fun run() = runBlocking {
-      val (projectId, client) = config ?: error("No config found")
-      val branches: BranchesResponse = client.listProjectBranches(projectId).body()
-      val primaryBranch = branches.branches.find { it.primary } ?: error("No primary branch found")
-      val endpoints: EndpointsResponse = client.listProjectEndpoints(projectId).body()
-      val primaryEndpoint = endpoints.endpoints.find { it.branchId == primaryBranch.id }
-        ?: error("No primary endpoint found")
-      echo(NeonCtlUtils.json.encodeToString(Endpoint.serializer(), primaryEndpoint))
     }
   }
 }
