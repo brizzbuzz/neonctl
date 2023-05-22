@@ -57,11 +57,6 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt install -y libcurl4-openssl-dev
-      - uses: fwilhe2/setup-kotlin@main
-        name: Setup Kotlin Native
-        with:
-          version: 1.8.21
-          install-native: true
       - name: Build Native Binary
         uses: burrunan/gradle-cache-action@v1
         with:
