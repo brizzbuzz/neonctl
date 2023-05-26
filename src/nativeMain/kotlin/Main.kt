@@ -13,6 +13,7 @@ fun main(args: Array<String>) = NeonCtlCommand
       .subcommands(
         BranchCommands.CreateBranchCommand,
         BranchCommands.ListBranchesCommand,
+        BranchCommands.DeleteBranchCommand,
       ),
     ProjectCommands { HttpClientFactory() }
       .subcommands(

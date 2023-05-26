@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-[0.3.0] - May 22rd, 2023
+[0.4.0] - May 26th, 2023
+
+### Added
+
+- Ability to specify branch name when creating a branch
+- Ability to delete a branch by id or name
+
+[0.3.0] - May 22nd, 2023
 
 ### Added 
 
