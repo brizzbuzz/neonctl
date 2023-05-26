@@ -10,6 +10,7 @@ import io.github.unredundant.neonctl.models.BranchesResponse
 import io.github.unredundant.neonctl.models.CreatedBranch
 import io.github.unredundant.neonctl.models.EndpointType
 import io.github.unredundant.neonctl.requests.createProjectBranch
+import io.github.unredundant.neonctl.requests.deleteProjectBranch
 import io.github.unredundant.neonctl.requests.listProjectBranches
 import io.github.unredundant.neonctl.util.ErrorMessage
 import io.github.unredundant.neonctl.util.NeonCtlUtils
@@ -46,6 +47,12 @@ class BranchCommands(private val client: () -> HttpClient) : CliktCommand(
     name = "create"
   ) {
     private val config by findObject<BranchCommandConfig>()
+
+    private val name by option(
+      help = "(Optional) Provide custom name for the branch",
+      names = arrayOf("--name", "-n")
+    )
+
     override fun run(): Unit = runBlocking {
       val (projectId, client) = config ?: error("No config found")
       val result = client.createProjectBranch(
@@ -61,7 +68,7 @@ class BranchCommands(private val client: () -> HttpClient) : CliktCommand(
           ),
           branch = BranchCreateRequest.Branch(
             parentId = null,
-            name = null,
+            name = name,
             parentLsn = null,
             parentTimestamp = null
           )
@@ -122,5 +129,58 @@ class BranchCommands(private val client: () -> HttpClient) : CliktCommand(
         }
       }
     }
+  }
+
+  object DeleteBranchCommand : CliktCommand(
+    help = "Delete a branch",
+    name = "delete"
+  ) {
+    private val config by findObject<BranchCommandConfig>()
+
+    private val branchId by option(
+      help = "The branch ID (Must be provided if branch name is not provided)",
+      names = arrayOf("--branch-id", "-id")
+    )
+
+    private val branchName by option(
+      help = "The branch name (Must be provided if branch ID is not provided)",
+      names = arrayOf("--branch-name", "-n")
+    )
+
+    override fun run() = runBlocking {
+      require(branchId != null || branchName != null) {
+        "Either branch ID or branch name must be provided"
+      }
+
+      val (projectId, client) = config ?: error("No config found")
+
+      val branches: BranchesResponse = client.listProjectBranches(projectId).body()
+      val branch = branches.branches.find {
+        it.id == branchId || it.name == branchName
+      } ?: error("Branch not found")
+
+      val result = client.deleteProjectBranch(projectId, branch.id)
+
+      when (result.status.value) {
+        in 200..299 -> {
+          echo("Branch deleted")
+        }
+
+        else -> {
+          val body: String = result.body()
+          echo(
+            NeonCtlUtils.json.encodeToString(
+              ErrorMessage.serializer(),
+              ErrorMessage(
+                message = "Delete branch failed",
+                code = result.status.value,
+                details = body
+              )
+            )
+          )
+        }
+      }
+    }
+
   }
 }
